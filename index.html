@@ -22,6 +22,7 @@
             align-items: center;
             overflow: hidden;
             position: relative;
+            padding: 20px;
         }
 
         /* Floating hearts animation */
@@ -59,26 +60,40 @@
             z-index: 10;
             max-width: 500px;
             width: 90%;
-            max-height: 90vh;
+            overflow: visible;
+        }
+
+        /* Custom scrollbar for container content when needed */
+        .date-container.active,
+        .destination-container.active,
+        .celebration-container.active {
+            max-height: 70vh;
             overflow-y: auto;
         }
 
-        /* Custom scrollbar for container */
-        .container::-webkit-scrollbar {
+        .date-container.active::-webkit-scrollbar,
+        .destination-container.active::-webkit-scrollbar,
+        .celebration-container.active::-webkit-scrollbar {
             width: 8px;
         }
 
-        .container::-webkit-scrollbar-track {
+        .date-container.active::-webkit-scrollbar-track,
+        .destination-container.active::-webkit-scrollbar-track,
+        .celebration-container.active::-webkit-scrollbar-track {
             background: #ffe9f0;
             border-radius: 10px;
         }
 
-        .container::-webkit-scrollbar-thumb {
+        .date-container.active::-webkit-scrollbar-thumb,
+        .destination-container.active::-webkit-scrollbar-thumb,
+        .celebration-container.active::-webkit-scrollbar-thumb {
             background: #ff8fab;
             border-radius: 10px;
         }
 
-        .container::-webkit-scrollbar-thumb:hover {
+        .date-container.active::-webkit-scrollbar-thumb:hover,
+        .destination-container.active::-webkit-scrollbar-thumb:hover,
+        .celebration-container.active::-webkit-scrollbar-thumb:hover {
             background: #ff6b9d;
         }
 
@@ -140,6 +155,7 @@
         /* Date selection screen */
         .date-container {
             display: none;
+            min-height: 400px;
         }
 
         .date-container.active {
@@ -155,22 +171,23 @@
             background: linear-gradient(135deg, #fff3cd 0%, #ffe9a6 100%);
             border: 2px solid #ffc107;
             border-radius: 15px;
-            padding: 15px;
+            padding: 12px 15px;
             margin-top: 15px;
             color: #856404;
             font-weight: 600;
-            font-size: 15px;
-            min-height: 50px;
+            font-size: 14px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(-10px);
             transition: all 0.3s ease-out;
         }
 
         .date-reminder.show {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
         }
 
         .date-reminder.appreciated {
@@ -234,19 +251,21 @@
             width: 100% !important;
             min-width: 100% !important;
             max-width: 100% !important;
-            justify-content: center;
-            padding: 0 !important;
+            display: grid !important;
+            grid-template-columns: repeat(7, 1fr) !important;
+            gap: 0 !important;
         }
 
         .flatpickr-day {
             color: #666;
             border-radius: 50%;
             font-weight: 500;
-            max-width: 40px;
+            max-width: none !important;
             height: 40px;
             line-height: 40px;
-            margin: 2px;
-            flex-basis: 14.2857% !important;
+            margin: 2px auto !important;
+            flex-basis: auto !important;
+            width: 40px !important;
         }
 
         .flatpickr-day:hover:not(.flatpickr-disabled) {
@@ -320,7 +339,7 @@
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
             color: white;
             box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
-            width: 100%;
+            width: 95%;
             padding: 15px;
             font-size: 18px;
         }
@@ -447,7 +466,7 @@
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
             color: white;
             box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
-            width: 100%;
+            width: 95%;
             margin-top: 15px;
         }
 
@@ -462,6 +481,19 @@
             margin-top: 15px;
             font-size: 16px;
             font-weight: 500;
+        }
+
+        /* Hide elements after address is shared */
+        .celebration-container.address-shared .celebration-text,
+        .celebration-container.address-shared #surpriseBtn,
+        .celebration-container.address-shared .address-form {
+            display: none;
+        }
+
+        .celebration-container.address-shared .address-success {
+            display: block;
+            font-size: 20px;
+            margin-top: 20px;
         }
 
         /* ===== RESPONSIVE DESIGN ===== */
@@ -549,6 +581,10 @@
                 padding: 12px 15px;
             }
 
+            .date-input-wrapper {
+                margin: 15px 0;
+            }
+
             textarea {
                 font-size: 15px;
                 padding: 12px;
@@ -600,7 +636,7 @@
             }
 
             .flatpickr-day {
-                max-width: 35px;
+                width: 35px !important;
                 height: 35px;
                 line-height: 35px;
                 font-size: 13px;
@@ -644,7 +680,7 @@
             }
 
             .flatpickr-day {
-                max-width: 30px;
+                width: 30px !important;
                 height: 30px;
                 line-height: 30px;
                 font-size: 12px;
@@ -772,7 +808,7 @@
         #proceedBtn {
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
             color: white;
-            width: 100%;
+            width: 90%;
             padding: 15px;
             font-size: 18px;
             opacity: 0.5;
@@ -873,9 +909,10 @@
                     rows="4"
                 ></textarea>
                 <button id="shareAddressBtn" onclick="shareAddress()">Share Address 💝</button>
-                <div class="address-success" id="addressSuccess">
-                    Address received! Something special is on its way... 🌹✨
-                </div>
+            </div>
+            
+            <div class="address-success" id="addressSuccess">
+                Address received! Something special is on its way... 🌹✨
             </div>
         </div>
     </div>
@@ -976,7 +1013,7 @@
                     
                     // Check if date is before May 1, 2026
                     const selectedDate = selectedDates[0];
-                    const mayFirst2026 = new Date('2026-05-01');
+                    const mayFirst2026 = new Date('2026-04-30');
                     const dateReminder = document.getElementById('dateReminder');
                     
                     if (selectedDate < mayFirst2026) {
@@ -1057,7 +1094,7 @@
             
             // Email parameters for YOU (BF)
             const bfEmailParams = {
-                to_email: 'salesperson079@gmail.com',
+                to_email: 'spradyumn99@gmail.com',
                 selected_date: window.selectedDate,
                 destination: selectedDestination.toUpperCase(),
                 destination_emoji: destinationEmoji,
@@ -1067,7 +1104,7 @@
 
             // Email parameters for HER
             const herEmailParams = {
-                to_email: 'spradyumn99@gmail.com',
+                to_email: 'salesperson079@gmail.com',
                 selected_date: window.selectedDate,
                 destination: selectedDestination.toUpperCase(),
                 destination_emoji: destinationEmoji,
@@ -1075,7 +1112,7 @@
             };
 
             // Send email to BF
-            emailjs.send('service_n20mj89', 'template_d5u0fg6', bfEmailParams)
+            emailjs.send('service_i2rrpgt', 'template_d5u0fg6', bfEmailParams)
                 .then(function(response) {
                     console.log('BF Email sent successfully!', response.status, response.text);
                 }, function(error) {
@@ -1083,7 +1120,7 @@
                 });
 
             // Send email to HER
-            emailjs.send('service_n20mj89', 'template_w3ix58r', herEmailParams)
+            emailjs.send('service_i2rrpgt', 'template_w3ix58r', herEmailParams)
                 .then(function(response) {
                     console.log('HER Email sent successfully!', response.status, response.text);
                 }, function(error) {
@@ -1114,7 +1151,7 @@
                 'beaches': `✨ Book a beachside restaurant
 🌅 Plan for sunset timing
 🩱 Check weather forecast
-🍹 Try local seafood & mocktails
+🍹 Try local food & mocktails
 📸 Scenic photo spots ready!`,
                 'mountains': `✨ Check trekking routes
 🥾 Comfortable shoes are a must
@@ -1134,7 +1171,7 @@
             const descriptions = {
                 'beaches': `Sun, sand, and the sound of waves! 🌊
 We'll enjoy the beach breeze, maybe catch the sunset,
-and try some amazing seafood & mocktails! 🍹`,
+and try some amazing food & mocktails! 🍹`,
                 'mountains': `Fresh mountain air and stunning views! 🌄
 We'll explore scenic trails, find cozy spots,
 and enjoy nature's beauty together! ☕`,
@@ -1175,7 +1212,7 @@ boat ride at sunset, and enjoy the magical atmosphere! ✨`
 
             // Reuse BF template with address information
             const addressEmailParams = {
-                to_email: 'salesperson079@gmail.com',
+                to_email: 'spradyumn99@gmail.com',
                 selected_date: window.selectedDate,
                 destination: selectedDestination.toUpperCase(),
                 destination_emoji: getDestinationEmoji(selectedDestination),
@@ -1192,14 +1229,13 @@ Make this date unforgettable!`,
             };
 
             // Send address email to BF using the same template
-            emailjs.send('service_n20mj89', 'template_d5u0fg6', addressEmailParams)
+            emailjs.send('service_i2rrpgt', 'template_d5u0fg6', addressEmailParams)
                 .then(function(response) {
                     console.log('Address email sent successfully!', response.status, response.text);
                     
-                    // Show success message
-                    document.getElementById('addressSuccess').style.display = 'block';
-                    shareBtn.textContent = 'Address Shared! 🎉';
-                    addressInput.disabled = true;
+                    // Add class to celebration container to show only GIF and success message
+                    document.getElementById('celebrationBlock').classList.add('address-shared');
+                    
                 }, function(error) {
                     console.log('Address email failed...', error);
                     alert('Oops! Something went wrong. Please try again! 💕');
